@@ -1,51 +1,39 @@
-# Claude Code Skills
+# Agent Skills
 
-Custom [skills](https://docs.anthropic.com/en/docs/claude-code/skills) (slash commands) for [Claude Code](https://docs.anthropic.com/en/docs/claude-code).
+[Skills](https://docs.anthropic.com/en/docs/claude-code/skills) for AI coding agents: Claude Code, Cursor, Codex, OpenCode and pi. Each skill is a directory with a `SKILL.md` and any supporting files.
 
 ## Skills
 
-### `/update-docs`
+| Skill | What it does |
+|---|---|
+| `pr-review` | Reviews a pull request for correctness, design, operational risk and test coverage. Runs the two skills below as part of the review. |
+| `architecture-review` | Reviews structure: module boundaries, coupling, data ownership, failure handling, APIs, operability. |
+| `software-design-principles` | DRY, single source of truth and separation of concerns for shared constants, config and product packaging. |
+| `performance-tuning` | Measurement-first performance work on a single program or library. |
+| `headless-agent-delegation` | Runs Claude Code or Cursor headless to use an integration (for example an MCP server) the current agent lacks, with a least-privilege tool allowlist. |
+| `update-docs` | Updates project docs to match recent code changes (`/update-docs`, `/update-docs 5`, `/update-docs develop`). |
+| `web-scraper` | Scrapes structured data from websites with Playwright, including JavaScript-rendered pages. |
+| `log-pws-todos` | Logs follow-up todos from a coding session into Obsidian, for projects under `~/Documents/personal/workspace/`. |
 
-Automatically updates project documentation to reflect recent code changes. Reads the project's `CLAUDE.md` to understand the project structure, then analyzes the git diff and updates any relevant docs.
+Third-party skills I also use, installed from upstream rather than copied here:
 
-**Usage:**
-
-| Command | Behavior |
-|---------|----------|
-| `/update-docs` (on a feature branch) | Diffs all commits against the default branch |
-| `/update-docs` (on main) | Shows the last commit |
-| `/update-docs 5` | Shows the last 5 commits |
-| `/update-docs develop` | Diffs against the `develop` branch |
+- `dev-browser`: [sawyerhood/dev-browser](https://github.com/sawyerhood/dev-browser)
+- `dagster-expert`, `dignified-python`: [dagster-io/skills](https://github.com/dagster-io/skills)
+- `find-skills`: [vercel-labs/skills](https://github.com/vercel-labs/skills)
+- `search-project-history`: ships with [agentrecall](https://github.com/bluearpit/agentrecall)
 
 ## Installation
 
-1. Clone this repo:
+```bash
+git clone https://github.com/bluearpit/agent-skills.git
+cd agent-skills
+./install.sh              # symlinks every skill into ~/.agents/skills
+agentrecall skills --apply  # links ~/.agents/skills into Claude Code
+```
 
-   ```bash
-   git clone https://github.com/bluearpit/claude-code-skills.git
-   ```
+`~/.agents/skills` is the one place skills live. Cursor, Codex, OpenCode and pi read it directly. Claude Code needs the links that `agentrecall skills --apply` creates (or symlink each skill into `~/.claude/skills` yourself).
 
-2. Symlink the skills you want into your Claude Code skills directory:
-
-   ```bash
-   # Create the skills directory if it doesn't exist
-   mkdir -p ~/.claude/skills
-
-   # Symlink a specific skill
-   ln -s /path/to/claude-code-skills/update-docs ~/.claude/skills/update-docs
-   ```
-
-3. Make sure helper scripts are executable:
-
-   ```bash
-   chmod +x ~/.claude/skills/update-docs/get-branch-diff.sh
-   ```
-
-4. The skill is now available as `/update-docs` in any Claude Code session.
-
-## Contributing
-
-Feel free to open a PR to add your own skills. Each skill should be a directory with a `SKILL.md` file and any supporting scripts or templates.
+Because the installed skills are symlinks into this repo, `git pull` updates every agent at once. To add a skill, create its directory here and run `./install.sh` again.
 
 ## License
 
