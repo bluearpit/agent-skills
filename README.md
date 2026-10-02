@@ -10,7 +10,7 @@
 | `architecture-review` | Reviews structure: module boundaries, coupling, data ownership, failure handling, APIs, operability. |
 | `software-design-principles` | DRY, single source of truth and separation of concerns for shared constants, config and product packaging. |
 | `performance-tuning` | Measurement-first performance work on a single program or library. |
-| `headless-agent-delegation` | Runs Claude Code or Cursor headless to use an integration (for example an MCP server) the current agent lacks, with a least-privilege tool allowlist. |
+| `headless-agent-delegation` | Runs Claude Code or Cursor headless to use an integration the current agent lacks. Also covers a read-only Cursor web search when Pi has no web-search tool. |
 | `update-docs` | Updates project docs to match recent code changes (`/update-docs`, `/update-docs 5`, `/update-docs develop`). |
 | `web-scraper` | Scrapes structured data from websites with Playwright, including JavaScript-rendered pages. |
 | `log-pws-todos` | Logs follow-up todos from a coding session into Obsidian, for projects under `~/Documents/personal/workspace/`. |
